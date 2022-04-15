@@ -19,6 +19,7 @@ namespace DataAccess.Concrete.EntityFramework
 
         public DbSet<Product> Products { get; set;}
         public DbSet<Category> Categories { get; set; }
+        public DbSet<ProductPicture> ProductPicture { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

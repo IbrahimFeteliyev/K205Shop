@@ -1,14 +1,13 @@
-﻿using Core.Entity;
-using Entities.Concrete;
+﻿using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Concrete
+namespace Entities.DTOs
 {
-    public class Product : IEntity
+    public class ProductDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -16,9 +15,7 @@ namespace Entities.Concrete
         public string Description { get; set; }
         public string Summary { get; set; }
         public string SKU { get; set; }
-        public int CategoryId { get; set; }
-        public Category Category  { get; set; }
-        public List<ProductPicture> ProductPicture { get; set; }
-
+        public string CategoryName { get; set; }
+        public List<string> ProductPictures { get; set; }
     }
 }
