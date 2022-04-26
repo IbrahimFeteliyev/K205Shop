@@ -20,15 +20,17 @@ namespace DataAccess.Concrete.EntityFramework
                 var products = context.Products.Include(x=>x.Category).Include(x => x.ProductPicture).ToList();
                 var productPictures = context.ProductPicture.Where(x => x.ProductId == 1).ToList();
                 List<ProductDTO> result = new();
-                List<string> pictures = new();
+                
 
-                foreach (var item in productPictures)
-                {
-                    pictures.Add(item.PhotoUrl);
-                }
+                
 
                 for (int i = 0; i < products.Count; i++)
                 {
+                    List<string> pictures = new();
+                    foreach (var item in productPictures.Where(x => x.ProductId == products[i].Id))
+                    {
+                        pictures.Add(item.PhotoUrl);
+                    }
                     ProductDTO productList = new()
                     {
                         Id = products[i].Id,
