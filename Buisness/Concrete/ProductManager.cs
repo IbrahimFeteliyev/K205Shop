@@ -44,9 +44,9 @@ namespace Buisness.Concrete
             return _productDal.GetAll();
         }
 
-        public Product GetProductById(int id)
+        public ProductDTO GetProductById(int id)
         {
-            return _productDal.Get(x => x.Id == id);
+            return _productDal.FindById(id);
         }
 
         public void Remove(Product product)

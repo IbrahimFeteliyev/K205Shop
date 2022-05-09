@@ -36,6 +36,15 @@ namespace WebAPI.Controllers
 
             return Ok(new { status = 200, message = productList });
         }
+
+
+        [HttpGet("getbyid/{id}")]
+        public IActionResult GetById(int id)
+        {
+            var product = _productManager.GetProductById(id);
+
+            return Ok(new {status = 200, message = product});
+        }
         [HttpPost("add")]
         public IActionResult Add(AddProductDTO product)
         {

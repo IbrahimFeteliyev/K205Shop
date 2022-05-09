@@ -13,6 +13,8 @@ namespace Entities.DTOs
         public string Description { get; set; }
         public string Summary { get; set; }
         public string SKU { get; set; }
+        public string CoverPhoto { get; set; }
+        public bool IsSlider { get; set; }
         public int CategoryId { get; set; }
     }
 }

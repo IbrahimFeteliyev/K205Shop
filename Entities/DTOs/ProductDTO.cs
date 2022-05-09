@@ -16,6 +16,8 @@ namespace Entities.DTOs
         public string Summary { get; set; }
         public string SKU { get; set; }
         public string CategoryName { get; set; }
+        public string CoverPhoto { get; set; }
+        public bool IsSlider { get; set; }
         public List<string> ProductPictures { get; set; }
     }
 }

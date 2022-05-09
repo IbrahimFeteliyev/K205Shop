@@ -12,7 +12,7 @@ namespace DataAccess.Abstract
     public interface IProductDal : IEntityRepository<Product>
     {
         List<ProductDTO> GetAllProduct();
-
+        ProductDTO FindById(int id);
 
     }
 }
