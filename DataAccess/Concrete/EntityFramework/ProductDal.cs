@@ -15,14 +15,31 @@ namespace DataAccess.Concrete.EntityFramework
     {
         public ProductDTO FindById(int id)
         {
-            using(var context = new ShopContext())
+            using (var context = new ShopContext())
             {
-                var product = context.Products.Include(x=>x.Category).FirstOrDefault(x => x.Id == id);
+                var product = context.Products.Include(x => x.Category).FirstOrDefault(x => x.Id == id);
                 var productPictures = context.ProductPicture.Where(x => x.ProductId == id).ToList();
                 List<string> pictures = new();
+                var ratings = context.Comments;
+                decimal ratingSum = 0;
+                int ratingCount = 0;
+
                 foreach (var item in productPictures.Where(x => x.ProductId == id))
                 {
                     pictures.Add(item.PhotoUrl);
+                }
+                foreach (var rating in ratings.Where(x => x.ProductId == product.Id && x.Ratings != 0))
+                {
+                    ratingCount++;
+                    ratingSum += rating.Ratings;
+                }
+                if (ratingCount == 0)
+                {
+                    ratingSum = 0;
+                }
+                else
+                {
+                    ratingSum = ratingSum / ratingCount;
                 }
                 ProductDTO productList = new()
                 {
@@ -36,6 +53,7 @@ namespace DataAccess.Concrete.EntityFramework
                     ProductPictures = pictures,
                     CoverPhoto = product.CoverPhoto,
                     IsSlider = product.IsSlider,
+                    Rating = Math.Round(ratingSum, 1),
 
                 };
 
@@ -47,20 +65,40 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (ShopContext context = new())
             {
-                var products = context.Products.Include(x=>x.Category).Include(x => x.ProductPicture).ToList();
+                var products = context.Products.Include(x => x.Category).Include(x => x.ProductPicture).ToList();
                 var productPictures = context.ProductPicture;
                 List<ProductDTO> result = new();
-                
+                var ratings = context.Comments;
+                var reviews = context.Comments;
+     
 
-                
+
 
                 for (int i = 0; i < products.Count; i++)
                 {
+                    decimal ratingSum = 0;
+                    int ratingCount = 0;
                     List<string> pictures = new();
                     foreach (var item in productPictures.Where(x => x.ProductId == products[i].Id))
                     {
                         pictures.Add(item.PhotoUrl);
                     }
+
+                    foreach (var rating in ratings.Where(x => x.ProductId == products[i].Id && x.Ratings != 0))
+                    {
+                        ratingCount++;
+                        ratingSum += rating.Ratings;
+                    }
+                    if (ratingCount == 0)
+                    {
+                        ratingSum = 0;
+                    }
+                    else
+                    {
+                        ratingSum = ratingSum / ratingCount;
+                    }
+
+
                     ProductDTO productList = new()
                     {
                         Id = products[i].Id,
@@ -73,15 +111,16 @@ namespace DataAccess.Concrete.EntityFramework
                         ProductPictures = pictures,
                         CoverPhoto = products[i].CoverPhoto,
                         IsSlider = products[i].IsSlider,
+                        Rating = Math.Round(ratingSum, 1),
 
                     };
                     result.Add(productList);
                 }
 
 
-                
 
-                return result; 
+
+                return result;
 
             }
         }

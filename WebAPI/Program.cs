@@ -23,6 +23,8 @@ builder.Services.AddScoped<ICategoryManager, CategoryManager>();
 builder.Services.AddScoped<IProductDal, ProductDal>();
 builder.Services.AddScoped<IProductManager, ProductManager>();
 
+builder.Services.AddScoped<ICommentDal, CommentDal>();
+builder.Services.AddScoped<ICommentManager, CommentManager>();
 
 builder.Services.AddCors(options =>
 {

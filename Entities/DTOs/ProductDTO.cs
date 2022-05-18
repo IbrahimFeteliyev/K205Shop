@@ -18,6 +18,7 @@ namespace Entities.DTOs
         public string CategoryName { get; set; }
         public string CoverPhoto { get; set; }
         public bool IsSlider { get; set; }
+        public decimal Rating { get; set; }
         public List<string> ProductPictures { get; set; }
     }
 }
