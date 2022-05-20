@@ -20,5 +20,6 @@ namespace Entities.DTOs
         public bool IsSlider { get; set; }
         public decimal Rating { get; set; }
         public List<string> ProductPictures { get; set; }
+        public List<CommentDTO> Comments { get; set; }
     }
 }

@@ -40,6 +40,11 @@ namespace WebAPI.Controllers
             }
         }
 
+        [HttpPost("addtest")]
+        public async Task<IActionResult> DeleteComment(CommentDTO comment)
+        {
+            return Ok();
+        }
         
     }
 }

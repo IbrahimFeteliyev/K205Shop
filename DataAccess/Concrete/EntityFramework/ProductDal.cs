@@ -20,15 +20,32 @@ namespace DataAccess.Concrete.EntityFramework
                 var product = context.Products.Include(x => x.Category).FirstOrDefault(x => x.Id == id);
                 var productPictures = context.ProductPicture.Where(x => x.ProductId == id).ToList();
                 List<string> pictures = new();
-                var ratings = context.Comments;
+                var comments = context.Comments.Where(x=>x.ProductId == product.Id).ToList(); 
+
                 decimal ratingSum = 0;
                 int ratingCount = 0;
+
+                List<CommentDTO> commentResult = new();
+
+                for (int i = 0; i < comments.Count; i++)
+                {
+                    CommentDTO comment = new()
+                    {
+                        ProductId = product.Id,
+                        UserEmail = comments[i].UserEmail,
+                        UserName = comments[i].UserName,
+                        Review = comments[i].Review,
+                        Ratings = comments[i].Ratings,
+
+                    };
+                    commentResult.Add(comment);
+                }
 
                 foreach (var item in productPictures.Where(x => x.ProductId == id))
                 {
                     pictures.Add(item.PhotoUrl);
                 }
-                foreach (var rating in ratings.Where(x => x.ProductId == product.Id && x.Ratings != 0))
+                foreach (var rating in comments.Where(x=>x.Ratings != 0))
                 {
                     ratingCount++;
                     ratingSum += rating.Ratings;
@@ -54,6 +71,8 @@ namespace DataAccess.Concrete.EntityFramework
                     CoverPhoto = product.CoverPhoto,
                     IsSlider = product.IsSlider,
                     Rating = Math.Round(ratingSum, 1),
+                    Comments = commentResult,
+
 
                 };
 
